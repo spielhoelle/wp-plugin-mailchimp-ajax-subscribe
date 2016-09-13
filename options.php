@@ -11,11 +11,12 @@ Author URI: www.thomaskuhnert.com
 
 require 'shortcode.php';
 require 'mc-config.php';
-$delete = $_POST;
-if($delete){
-    var_dump("killed");
+
+if(isset($_POST["subscribers"]) && $_POST["subscribers"] == 'delete'){
     update_option( 'tma_subscribers', array() );
 }
+
+
 add_action('plugins_loaded', 'tma_translation');
 function tma_translation() {
     load_plugin_textdomain( 'tommy-mailchimp-ajax', false, dirname( plugin_basename(__FILE__) ) . '/lang/' );
@@ -26,7 +27,7 @@ add_action( 'wp_enqueue_scripts', 'load_plugin_css', 15 );
 function load_plugin_css() {
     $plugin_url = dirname( plugin_basename(__FILE__) );
 
-    wp_enqueue_style( 'tommy-mailchimp-ajax', $plugin_url . 'tommy-mailchimp-ajax.css');
+    wp_enqueue_style( 'tommy-mailchimp-ajax', plugin_dir_url(__FILE__) . '/tommy-mailchimp-ajax.css');
 }
 
 add_action('admin_menu', 'test_plugin_setup_menu');
