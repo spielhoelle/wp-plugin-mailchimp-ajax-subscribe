@@ -1,58 +1,39 @@
 <?php
 
-// load in mailchimp library
-include('./MailChimp.php');
-
 require_once(dirname(__FILE__).'../../../../wp-config.php');
 
 
-// namespace defined in MailChimp.php
-use \DrewM\MailChimp\MailChimp;
+//fill in these values for with your own information
+$api_key = get_option('api_key');
+$datacenter = explode('-', $api_key)[1];
+$list_id = get_option('list_id');
+$email = $_POST['EMAIL'];
 
-// connect to mailchimp
-$MailChimp  = new MailChimp(get_option('api_key')); // put your API key here
-$list       = get_option('list_id');                // put your list ID here
 
-$email = $_POST['EMAIL']; // Get email address from form
-$id = md5(strtolower($email)); // Encrypt the email address
-
-if(get_option('opt_in') == 1){
-    $opt_in = 'pending';
+if(get_option('opt_in') === "1"){
+    $status = 'pending';
 } else {
-    $opt_in = 'subscribed';
+    $status = 'subscribed';
 }
 
-// setup th merge fields
-$mergeFields = array(
-	// *** YOUR FIELDS GO HERE ***
-	);
+$url = 'https://'.$datacenter.'.api.mailchimp.com/3.0/lists/'.$list_id.'/members/';
+$username = 'apikey';
+$password = $api_key;
+$data = array("email_address" => $email,"status" => $status);
+$data_string = json_encode($data);
+$ch = curl_init();
 
-// remove empty merge fields
-$mergeFields = array_filter($mergeFields);
+curl_setopt($ch, CURLOPT_URL,$url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+curl_setopt($ch, CURLOPT_USERPWD, "$username:$api_key");
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string))
+);
 
-$result = $MailChimp->put("lists/$list/members/$id", array(
-								'email_address'     => $email,
-								'status'            => $opt_in,
-								'update_existing'   => true, // YES, update old subscribers!
-						));
-
-
-
-if($result !== "") {
-    $currentData = get_option('tma_subscribers');
-
-    $new_subscriber = array (
-        'email' => $email,
-        'date' => time()
-    );
-
-    if(!is_array($currentData)) {
-        $currentData = array();
-    }
-    array_push($currentData, $new_subscriber);
-
-    update_option( 'tma_subscribers', $currentData );
-
-}
-
-echo json_encode($result);
+$result=curl_exec ($ch);
+curl_close ($ch);
+echo $result;
