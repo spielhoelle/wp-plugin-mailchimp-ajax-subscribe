@@ -25,17 +25,17 @@ jQuery(function($) {
       if(data.id){
       	if(currentForm.hasClass('pending')){
 		        //successful adds will have an id attribute on the object
-		        currentForm.append('<div class="tmcajaxresponse success">Bitte, überprüfe dein Postfach.<br/> Wir haben dir eine Bestätigungsmail gesendet...</div>')
+		        currentForm.append('<div class="tmcajaxresponse success">Bitte, überprüfe dein Postfach.<br/> Wir haben dir eine Bestätigungsmail gesendet... <i class="fa fa-check fa-3x fa-fw"></i></div>')
 		      } else if(currentForm.hasClass('subscribed')) {
-  		   		currentForm.append('<div class="tmcajaxresponse success">Willkommen auf der Liste. <br/>Wir melden uns bald bei dir!</div>')
+  		   		currentForm.append('<div class="tmcajaxresponse success">Willkommen auf der Liste. <br/>Wir melden uns bald bei dir! <i class="fa fa-check fa-3x fa-fw"></i></div>')
 		      }
 
       } else if (data.title == 'Member Exists') {
         //MC wil send back an error object with "Member Exists" as the title
-        currentForm.append('<div class="tmcajaxresponse success">Du bist schon auf der Liste registriert. Bis bald!</div>')
+        currentForm.append('<div class="tmcajaxresponse success">Du bist schon auf der Liste registriert. Bis bald! <i class="fa fa-check fa-3x fa-fw"></i></div>')
       } else {
         //something went wrong with the API call
-        currentForm.append('<div class="tmcajaxresponse error">Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.</div>')
+        currentForm.append('<div class="tmcajaxresponse times">Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.<i class="fa fa-error fa-3x fa-fw"></i></div>')
       }
 
     }).error(function(error){
@@ -45,7 +45,7 @@ jQuery(function($) {
 			$('.tmcajax .fa-circle-o-notch').css({'visibility': 'hidden'})
 
       //the AJAX function returned a non-200, probably a server problem
-      currentForm.append('<div class="tmcajaxresponse error">Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.</div>')
+      currentForm.append('<div class="tmcajaxresponse times">Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.<i class="fa fa-error fa-3x fa-fw"></i></div>')
     });
 
 
