@@ -36,4 +36,4 @@ msgid "Subscriptions:"
 msgstr "Anmeldeversuche:"
 
 msgid "Subscribe me!"
-msgstr "Trag mich an!"
+msgstr "Trag mich ein!"
