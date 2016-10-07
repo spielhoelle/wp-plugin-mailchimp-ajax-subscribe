@@ -12,9 +12,9 @@ function form() {
   }
   if(!get_option('api_key') || !get_option('list_id')){
     if(is_user_logged_in()){
-      $html = '<h2>'.__("No Mailchimp api_key or list_id in options defined.", 'tommy-mailchimp-ajax');
+      $html = '<h2>'.__("No Mailchimp api_key or list_id in options defined.", 'tommy-mailchimp-ajax').'</h2>';
       $html .= ' <a href="'.admin_url('options-general.php?page=tommy-mailchimp-ajax%2Foptions.php').'" target="_blank">';
-      $html .= __("Go to options ->", 'tommy-mailchimp-ajax').'</h2>';
+      $html .= __("Go to options ->", 'tommy-mailchimp-ajax').'</a>';
     }
   } else {
     $html = '
