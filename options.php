@@ -32,7 +32,7 @@ function load_plugin_css() {
 
 add_action('admin_menu', 'test_plugin_setup_menu');
 function test_plugin_setup_menu(){
-    add_options_page( 
+    add_options_page(
             'Mailchimp-Ajax',
             'Mailchimp-Ajax',
             'manage_options',
@@ -40,7 +40,7 @@ function test_plugin_setup_menu(){
             'form_for_mailchimp_settings'
         );
 }
- 
+
 function form_for_mailchimp_settings(){
     ?>
 	    <div class="wrap">
@@ -50,13 +50,13 @@ function form_for_mailchimp_settings(){
 	    <form method="post" action="options.php">
             <?php
                 settings_fields("section");
-                do_settings_sections("theme-options");      
-                submit_button(); 
+                do_settings_sections("theme-options");
+                submit_button();
                 ?>
 
         </form>
 
-  
+
         <?php display_subscribers() ?>
 
         <form action="<?php echo $_SERVER['REQUEST_URI']?>" method="post">
@@ -88,7 +88,7 @@ function display_opt_in_box(){
 }
 
 function display_subscribers()
-{   
+{
 
     if($subscribers = get_option('tma_subscribers')){
 
@@ -106,14 +106,14 @@ function display_subscribers()
             <tbody>
             ';
             foreach ($subscribers as $key => $value) {
-                $html .= 
+                $html .=
                 '<tr>
                     <td>'.$value['email'].'</td>
 
                     <td>' . get_date_from_gmt( date( 'Y-m-d H:i:s', $value['date'] ), ' j M Y - H:i:s' ).'</td>
                 </tr>';
             }
-            
+
             $html .= '
             <tr class="list-details list-014f2b7f68-details">
             </tr>
@@ -127,7 +127,7 @@ function display_subscribers()
 function display_theme_panel_fields()
 {
 	add_settings_section("section", "Einstellugen", null, "theme-options");
-	
+
 	add_settings_field("api_key", "Mailchimp Api-Key", "display_api_key_input", "theme-options", "section");
     add_settings_field("list_id", "Mailchimp List-ID", "display_list_id", "theme-options", "section");
 
@@ -154,7 +154,7 @@ function myplugin_plugin_action_links($links, $file) {
     }
 
     if ($file == $this_plugin) {
-        $settings_link = '<a href="' . get_bloginfo('wpurl') . '/wp-admin/options-general.php?page=tommy-mailchimp-ajax/options.php">Settings</a>';
+        $settings_link = '<a href="' . get_bloginfo('wpurl') . '/wp-admin/options-general.php?page=wp-plugin-mailchimp-ajax-subscribe%2Foptions.php">Settings</a>';
         array_unshift($links, $settings_link);
     }
 
