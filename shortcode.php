@@ -1,9 +1,6 @@
 <?php
 
 add_shortcode('newsletter-form', 'form');
-
-
-
 function form() {
   if(get_option('opt_in') === "1"){
       $status = 'pending';
@@ -24,5 +21,12 @@ function form() {
       </form>
       ';
   }
+  return $html;
+}
+
+
+add_shortcode('newsletter-link', 'display_nl_link');
+function display_nl_link() {
+  $html = '<a href="' . get_the_permalink(get_option('newsletter_archive_page')) .'">Newsletter Archiv</a>';
   return $html;
 }

@@ -9,7 +9,3 @@ function add_mc_scripts() {
 }
 
 add_action('wp_enqueue_scripts', 'add_mc_scripts');
-
-
-// var_dump(get_option( 'api_key' ));
-

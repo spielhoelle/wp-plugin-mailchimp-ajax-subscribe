@@ -11,6 +11,7 @@ Author URI: www.thomaskuhnert.com
 
 require 'shortcode.php';
 require 'mc-config.php';
+require 'newsletter_archive.php';
 
 if(isset($_POST["subscribers"]) && $_POST["subscribers"] == 'delete'){
     update_option( 'tma_subscribers', array() );
@@ -32,7 +33,7 @@ function load_plugin_css() {
 
 add_action('admin_menu', 'test_plugin_setup_menu');
 function test_plugin_setup_menu(){
-    add_options_page( 
+    add_options_page(
             'Mailchimp-Ajax',
             'Mailchimp-Ajax',
             'manage_options',
@@ -40,7 +41,7 @@ function test_plugin_setup_menu(){
             'form_for_mailchimp_settings'
         );
 }
- 
+
 function form_for_mailchimp_settings(){
     ?>
 	    <div class="wrap">
@@ -50,13 +51,13 @@ function form_for_mailchimp_settings(){
 	    <form method="post" action="options.php">
             <?php
                 settings_fields("section");
-                do_settings_sections("theme-options");      
-                submit_button(); 
+                do_settings_sections("theme-options");
+                submit_button();
                 ?>
 
         </form>
 
-  
+
         <?php display_subscribers() ?>
 
         <form action="<?php echo $_SERVER['REQUEST_URI']?>" method="post">
@@ -86,9 +87,12 @@ function display_opt_in_box(){
         <input type="checkbox" id="opt_in" name="opt_in" value="1" <?php checked(checked( get_option('opt_in'), 1 )) ?>/>
     <?php
 }
+function display_newsletter_archive(){
+    wp_dropdown_pages( ['name'=> 'newsletter_archive_page', 'selected' => get_option('newsletter_archive_page')] );
+}
 
 function display_subscribers()
-{   
+{
 
     if($subscribers = get_option('tma_subscribers')){
 
@@ -106,14 +110,14 @@ function display_subscribers()
             <tbody>
             ';
             foreach ($subscribers as $key => $value) {
-                $html .= 
+                $html .=
                 '<tr>
                     <td>'.$value['email'].'</td>
 
                     <td>' . get_date_from_gmt( date( 'Y-m-d H:i:s', $value['date'] ), ' j M Y - H:i:s' ).'</td>
                 </tr>';
             }
-            
+
             $html .= '
             <tr class="list-details list-014f2b7f68-details">
             </tr>
@@ -127,15 +131,17 @@ function display_subscribers()
 function display_theme_panel_fields()
 {
 	add_settings_section("section", "Einstellugen", null, "theme-options");
-	
+
 	add_settings_field("api_key", "Mailchimp Api-Key", "display_api_key_input", "theme-options", "section");
     add_settings_field("list_id", "Mailchimp List-ID", "display_list_id", "theme-options", "section");
 
     add_settings_field("opt_in", "Wenn sich jemand einträgt, Bestätigungslink oder sofort eintragen?", "display_opt_in_box", "theme-options", "section");
+    add_settings_field("newsletter_archive_page", "Newsletter Archiv Seite", "display_newsletter_archive", "theme-options", "section");
 
     register_setting("section", "api_key");
     register_setting("section", "list_id");
     register_setting("section", "opt_in");
+    register_setting("section", "newsletter_archive_page");
     register_setting("section", "subscribers");
 }
 
