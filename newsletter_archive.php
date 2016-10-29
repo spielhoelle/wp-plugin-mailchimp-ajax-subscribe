@@ -107,7 +107,8 @@ function get_newsletters_from_mc() {
 // if admin_init check for sent newsletters
 add_action( 'admin_init', 'check_for_nl' );
 function check_for_nl() {
-  if(empty( get_site_transient("mailchimp_request")) )   {
+  $request = get_site_transient("mailchimp_request");
+  if(empty( $request ) )   {
      get_newsletters_from_mc();
      set_site_transient("mailchimp_request", 'fetched', DAY_IN_SECONDS);
    }
