@@ -160,7 +160,7 @@ function myplugin_plugin_action_links($links, $file) {
     }
 
     if ($file == $this_plugin) {
-        $settings_link = '<a href="' . get_bloginfo('wpurl') . '/wp-admin/options-general.php?page=tommy-mailchimp-ajax/options.php">Settings</a>';
+        $settings_link = '<a href="' . get_bloginfo('wpurl') . '/wp-admin/options-general.php?page=wp-plugin-mailchimp-ajax-subscribe%2Foptions.php">Settings</a>';
         array_unshift($links, $settings_link);
     }
 
