@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Tommy-Mailchimp-Ajax 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-27 13:09+0100\n"
-"PO-Revision-Date: 2016-11-05 17:02+0100\n"
+"PO-Revision-Date: 2016-11-05 20:08+0100\n"
 "Language-Team: Daniel Pataki <hello@danielpataki.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,3 +52,9 @@ msgstr "Lösche die liste der letzten Anmeldungen"
 
 msgid "Get all sent newsletter and show them as Newsletter Post type here in Wordpress"
 msgstr "Hole alle versendeten Mailchimp Newsletter und erstelle Newsletter Beiträge"
+
+msgid "Go to Newsletter Archiv on frontend"
+msgstr "Gehe zur Newsletter Archive Seite im Frontend"
+
+msgid "Show all imported Newsletters in admin area"
+msgstr "Zeige alle importierten Newsletter im Admin Bereich"

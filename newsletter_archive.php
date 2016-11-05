@@ -19,11 +19,41 @@ function create_post_type() {
 
 function your_login_function(){
   if(isset($_POST["getsentcampaigns"]) && $_POST["getsentcampaigns"] == 'updatenewsletters'){
-    get_newsletters_from_mc();
+    $count = get_newsletters_from_mc();
+    if ($count == 0){
+      add_action('admin_notices', 'nl_updated');
+    }else {
+      add_action('admin_notices', 'nl_not_updated');
+    }
   }
 }
 
 add_action('init', 'your_login_function');
+
+
+
+// display custom admin notice
+function nl_not_updated() {
+
+	if (get_current_screen()->id === 'settings_page_wp-plugin-mailchimp-ajax-subscribe/options') {
+		 ?>
+			<div class="notice notice-success is-dismissible">
+				<p>Newsletter imported</p>
+			</div>
+<?php	}
+}
+
+// display custom admin notice
+function nl_updated() {
+
+	if (get_current_screen()->id === 'settings_page_wp-plugin-mailchimp-ajax-subscribe/options') {
+		 ?>
+			<div class="notice notice-success is-dismissible">
+				<p>Already up to date. <a href="<?php echo get_the_permalink(get_option('newsletter_archive_page'))?>"><?php _e("Go to Newsletter Archiv on frontend", 'tommy-mailchimp-ajax') ?></a> <br>  <a href="/wp-admin/edit.php?post_type=newsletter"><?php _e('Show all imported Newsletters in admin area', 'tommy-mailchimp-ajax') ?></a></p>
+
+			</div>
+<?php	}
+}
 
 
 
@@ -52,7 +82,7 @@ function get_mailchimp_campaigns() {
 }
 
 function get_newsletters_from_mc() {
-
+    $i = 0;
     $all_campaigns = get_mailchimp_campaigns();
 
     foreach($all_campaigns as $data){
@@ -109,11 +139,13 @@ function get_newsletters_from_mc() {
 
 
           $post_id = wp_insert_post( $my_post, true );
+          $i++;
 
           add_post_meta($post_id, 'campaign_id', $data->id);
         }
         wp_reset_postdata();
     }
+    return $i;
 }
 
 // if admin_init check for sent newsletters
