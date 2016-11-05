@@ -48,6 +48,8 @@ function form_for_mailchimp_settings(){
         <h1><?php _e("Mailchimp settings", 'tommy-mailchimp-ajax') ?></h1>
         <p><?php _e("To display the form on the website somewhere else than in the about us section, put this shortcode somewhere you want to display it. It could be a widget or a simply a page.", 'tommy-mailchimp-ajax') ?></p>
         <code>[newsletter-form]</code>
+        <p><?php _e("To display a link to the newsletter archive page.", 'tommy-mailchimp-ajax') ?></p>
+        <code>[newsletter-link]</code>
 	    <form method="post" action="options.php">
             <?php
                 settings_fields("section");
@@ -62,7 +64,13 @@ function form_for_mailchimp_settings(){
 
         <form action="<?php echo $_SERVER['REQUEST_URI']?>" method="post">
             <p class="submit">
-            <button type="submit" name="subscribers" id="subscribers" class="button" value="delete" onclick="return confirm('<?php echo htmlspecialchars("Sicher? Dies löscht die Liste in der Wordpress Datenbank. Hoffentlich sind alle diese Adressen bei Mailchimp importiert."); ?>')"/>Liste löschen</button>
+            <button type="submit" name="subscribers" id="subscribers" class="button" value="delete" onclick="return confirm('<?php echo htmlspecialchars("Sicher? Dies löscht die Liste in der Wordpress Datenbank. Hoffentlich sind alle diese Adressen bei Mailchimp importiert."); ?>')"/><?php _e('Clear List of recent subscribers', 'tommy-mailchimp-ajax') ?></button>
+            </p>
+        </form>
+
+        <form action="<?php echo $_SERVER['REQUEST_URI']?>" method="post">
+            <p class="submit">
+            <button type="submit" name="getsentcampaigns" id="getsentcampaigns" class="button" value="updatenewsletters" /><?php _e('Get all sent newsletter and show them as Newsletter Post type here in Wordpress', 'tommy-mailchimp-ajax') ?></button>
             </p>
         </form>
 
@@ -135,8 +143,8 @@ function display_theme_panel_fields()
 	add_settings_field("api_key", "Mailchimp Api-Key", "display_api_key_input", "theme-options", "section");
     add_settings_field("list_id", "Mailchimp List-ID", "display_list_id", "theme-options", "section");
 
-    add_settings_field("opt_in", "Wenn sich jemand einträgt, Bestätigungslink oder sofort eintragen?", "display_opt_in_box", "theme-options", "section");
-    add_settings_field("newsletter_archive_page", "Newsletter Archiv Seite", "display_newsletter_archive", "theme-options", "section");
+    add_settings_field("opt_in", __('Opt-in. If activated, a confirmation link will be sent. Afterwards the subscriber will be added to the list.', 'tommy-mailchimp-ajax'), "display_opt_in_box", "theme-options", "section");
+    add_settings_field("newsletter_archive_page", __("Newsletter archiv page. Where all sent newsletters will be displayed.", 'tommy-mailchimp-ajax'), "display_newsletter_archive", "theme-options", "section");
 
     register_setting("section", "api_key");
     register_setting("section", "list_id");

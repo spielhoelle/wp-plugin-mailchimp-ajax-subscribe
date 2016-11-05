@@ -14,20 +14,10 @@ get_header(); ?>
       $i = 1;
        if ( $loop->have_posts() ) :
            while ( $loop->have_posts() ) : $loop->the_post(); ?>
-            <section <?php echo ( $i % 2 === 0) ? "class='color2'" : '' ?>>
-              <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
-                <h1 class="entry-title"><?php echo get_the_title(); ?></h1>
-
-                <div class="wrap">
-                   <?php  echo get_the_content();  ?>
-                 </div>
-              </article><!--newsletter_template.php-->
-
-             </section>
-           <?php
-           $i++;
-         endwhile;
+	           <?php
+						 get_template_part( 'template-parts/content', 'newsletter' );
+	           $i++;
+	         endwhile;
 
 
          if (  $loop->max_num_pages > 1 ) : ?>
