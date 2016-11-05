@@ -38,7 +38,7 @@ function nl_not_updated() {
 	if (get_current_screen()->id === 'settings_page_wp-plugin-mailchimp-ajax-subscribe/options') {
 		 ?>
 			<div class="notice notice-success is-dismissible">
-				<p>Newsletter imported</p>
+				<p>Import done! <a href="/wp-admin/edit.php?post_type=newsletter"><?php _e('Show all imported Newsletters in admin area', 'tommy-mailchimp-ajax') ?></a></p>
 			</div>
 <?php	}
 }
@@ -49,7 +49,7 @@ function nl_updated() {
 	if (get_current_screen()->id === 'settings_page_wp-plugin-mailchimp-ajax-subscribe/options') {
 		 ?>
 			<div class="notice notice-success is-dismissible">
-				<p>Already up to date. <a href="<?php echo get_the_permalink(get_option('newsletter_archive_page'))?>"><?php _e("Go to Newsletter Archiv on frontend", 'tommy-mailchimp-ajax') ?></a> <br>  <a href="/wp-admin/edit.php?post_type=newsletter"><?php _e('Show all imported Newsletters in admin area', 'tommy-mailchimp-ajax') ?></a></p>
+				<p>Already up to date. <br> <a href="<?php echo get_the_permalink(get_option('newsletter_archive_page'))?>"><?php _e("Go to Newsletter Archiv on frontend", 'tommy-mailchimp-ajax') ?></a> <br>  <a href="/wp-admin/edit.php?post_type=newsletter"><?php _e('Show all imported Newsletters in admin area', 'tommy-mailchimp-ajax') ?></a></p>
 
 			</div>
 <?php	}
@@ -61,14 +61,15 @@ function get_mailchimp_campaigns() {
 
   $curl = curl_init();
   $api_key = get_option('api_key');
+  $list_id = get_option('list_id');
   $datacenter = explode('-', $api_key)[1];
 
   curl_setopt_array($curl, array(
-    CURLOPT_URL => "https://".$datacenter.".api.mailchimp.com/3.0/campaigns/?status=sent",
+    CURLOPT_URL => "https://".$datacenter.".api.mailchimp.com/3.0/campaigns/?status=sent&sort_field=send_time&sort_dir=DESC&count=100&list_id=".$list_id,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
     CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
+    CURLOPT_TIMEOUT => 60,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => "GET",
     CURLOPT_HTTPHEADER => array(
@@ -107,7 +108,7 @@ function get_newsletters_from_mc() {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
+            CURLOPT_TIMEOUT => 60,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
@@ -117,7 +118,6 @@ function get_newsletters_from_mc() {
           ));
 
           $content_response = curl_exec($content_curl);
-
           //parsing the messy mailchimp response
           $content = wpautop( json_decode($content_response)->plain_text, true );
 
@@ -131,17 +131,20 @@ function get_newsletters_from_mc() {
 
           $my_post = array(
               'post_title' => $data->settings->subject_line,
+              'post_date' => $data->send_time,
               'post_content' => $stripped_content_with_links_and_headlines,
               'post_status' => 'publish',
               'post_author' => 1,
               'post_type' => 'newsletter'
           );
 
-
           $post_id = wp_insert_post( $my_post, true );
+
           $i++;
 
           add_post_meta($post_id, 'campaign_id', $data->id);
+          add_post_meta($post_id, 'sent_time', $data->id);
+          add_post_meta($post_id, 'long_archive_url', $data->long_archive_url);
         }
         wp_reset_postdata();
     }
