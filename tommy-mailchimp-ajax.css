@@ -1,5 +1,8 @@
+.fa-circle-o-notch{
+  display: none
+}
 .tmcajaxresponse {
-  margin-top: 30px;
+  display: none
 }
 
 .tmcajaxresponse.error{

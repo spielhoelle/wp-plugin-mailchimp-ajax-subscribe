@@ -1,11 +1,10 @@
 jQuery(function($) {
 	$('.tmcajax').on('submit',function(e) {
 		currentForm = $(this)
-		// Highjack the submit button, we will do it ourselves
 		e.preventDefault();
-		$('.tmcajax .fa-circle-o-notch').css({'visibility': 'visible'})
+		$('.tmcajax .fa-circle-o-notch').css({'display': 'inline-block'})
+		$('.tmcajaxresponse').hide()
 
-		// store all the form data in a variable
 		var formData = $(this).serialize();
 
 		$.ajax({
@@ -14,33 +13,26 @@ jQuery(function($) {
 			data: formData,
 			dataType: 'json'
 		}).success(function(data){
-			$('.tmcajaxresponse').remove()
-			$('.tmcajax .fa-circle-o-notch').css({'visibility': 'hidden'})
+			$('.tmcajax .fa-circle-o-notch').css({'display': 'none'})
 
-
+			console.log(data);
       if(data.id){
       	if(currentForm.hasClass('pending')){
-		        //successful adds will have an id attribute on the object
-		        currentForm.append('<div class="tmcajaxresponse success"><p><i class="fa fa-check fa-fw"></i>Bitte, überprüfe dein Postfach.<br/> Wir haben dir eine Bestätigungsmail gesendet... </p></div>')
-		      } else if(currentForm.hasClass('subscribed')) {
-  		   		currentForm.append('<div class="tmcajaxresponse success"><p><i class="fa fa-check fa-fw"></i>Willkommen auf der Liste. <br/>Wir melden uns bald bei dir! </p></div>')
-		      }
+	        currentForm.find('.tmcajaxresponse.opt-in').show()
+	      } else if(currentForm.hasClass('subscribed')) {
+		   		currentForm.find('.tmcajaxresponse.success').show()
+	      }
 
-      } else if (data.title == 'Member Exists') {
-        //MC wil send back an error object with "Member Exists" as the title
-        currentForm.append('<div class="tmcajaxresponse success"><p><i class="fa fa-check fa-fw"></i>Willkommen auf der Liste. <br/>Wir melden uns bald bei dir! </p></div>')
       } else {
-        //something went wrong with the API call
-        currentForm.append('<div class="tmcajaxresponse error"><p><i class="fa fa-exclamation-triangle fa-fw"></i>Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.</p></div>')
+        currentForm.find('.tmcajaxresponse.error').show()
       }
 
     }).error(function(error){
 
-			$('.tmcajaxresponse').remove()
-			$('.tmcajax .fa-circle-o-notch').css({'visibility': 'hidden'})
+			currentForm.find('.tmcajaxresponse').hide()
+			$('.tmcajax .fa-circle-o-notch').css({'display': 'none'})
 
-      //the AJAX function returned a non-200, probably a server problem
-      currentForm.append('<div class="tmcajaxresponse error"><p><i class="fa fa-exclamation-triangle fa-fw"></i>Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.</p></div>')
+      currentForm.find('.tmcajaxresponse.error').show()
     });
 
 
