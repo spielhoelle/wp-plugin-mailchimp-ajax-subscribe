@@ -28,7 +28,7 @@ jQuery(function($) {
 
       } else if (data.title == 'Member Exists') {
         //MC wil send back an error object with "Member Exists" as the title
-        currentForm.append('<div class="tmcajaxresponse success"><i class="fa fa-check fa-3x fa-fw"></i><p>Du bist schon auf der Liste registriert. Bis bald! </p></div>')
+        currentForm.append('<div class="tmcajaxresponse success"><i class="fa fa-check fa-3x fa-fw"></i><p>Willkommen auf der Liste. <br/>Wir melden uns bald bei dir! </p></div>')
       } else {
         //something went wrong with the API call
         currentForm.append('<div class="tmcajaxresponse times"><i class="fa fa-error fa-3x fa-fw"></i><p>Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.</p></div>')
