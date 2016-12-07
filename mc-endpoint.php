@@ -35,5 +35,24 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 
 $result=curl_exec ($ch);
+
+
+
+if($result !== "") {
+    $currentData = get_option('tma_subscribers');
+
+    $new_subscriber = array (
+        'email' => $email,
+        'date' => time()
+    );
+
+    if(!is_array($currentData)) {
+        $currentData = array();
+    }
+    array_push($currentData, $new_subscriber);
+
+    update_option( 'tma_subscribers', $currentData );
+}
+
 curl_close ($ch);
 echo $result;
