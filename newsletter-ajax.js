@@ -16,11 +16,14 @@ jQuery(function($) {
 			$('.tmcajax .fa-circle-o-notch').css({'display': 'none'})
 
 			console.log(data);
-      if(data.id){
+			if ( data.title == 'Member Exists') {
+				currentForm.find('.tmcajaxresponse.welcome').show()
+			}
+			else if(data.id){
       	if(currentForm.hasClass('pending')){
 	        currentForm.find('.tmcajaxresponse.opt-in').show()
 	      } else if(currentForm.hasClass('subscribed')) {
-		   		currentForm.find('.tmcajaxresponse.success').show()
+		   		currentForm.find('.tmcajaxresponse.welcome').show()
 	      }
 
       } else {
