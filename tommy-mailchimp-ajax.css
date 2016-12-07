@@ -1,16 +1,10 @@
-.tmcajax .fa {
-  line-height: 1.5;
-  position: absolute;
-  color: white;
-}
-
 .tmcajaxresponse {
   margin-top: 30px;
 }
 
 .tmcajaxresponse.error{
-  color: red;
+  color: #fd7575;
 }
 .tmcajaxresponse.success{
-  color: green;
+  color: #75fd75;
 }
