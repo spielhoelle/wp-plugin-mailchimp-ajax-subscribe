@@ -31,7 +31,7 @@ jQuery(function($) {
         currentForm.append('<div class="tmcajaxresponse success"><p><i class="fa fa-check fa-fw"></i>Willkommen auf der Liste. <br/>Wir melden uns bald bei dir! </p></div>')
       } else {
         //something went wrong with the API call
-        currentForm.append('<div class="tmcajaxresponse times"><p><i class="fa fa-error fa-fw"></i>Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.</p></div>')
+        currentForm.append('<div class="tmcajaxresponse error"><p><i class="fa fa-exclamation-triangle fa-fw"></i>Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.</p></div>')
       }
 
     }).error(function(error){
@@ -40,7 +40,7 @@ jQuery(function($) {
 			$('.tmcajax .fa-circle-o-notch').css({'visibility': 'hidden'})
 
       //the AJAX function returned a non-200, probably a server problem
-      currentForm.append('<div class="tmcajaxresponse times"><p><i class="fa fa-error fa-fw"></i>Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.</p></div>')
+      currentForm.append('<div class="tmcajaxresponse error"><p><i class="fa fa-exclamation-triangle fa-fw"></i>Ooops, da gab es wohl ein Problem. Versuch es doch bitte später noch einmal.</p></div>')
     });
 
 
