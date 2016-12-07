@@ -15,7 +15,6 @@ jQuery(function($) {
 		}).success(function(data){
 			$('.tmcajax .fa-circle-o-notch').css({'display': 'none'})
 
-			console.log(data);
 			if ( data.title == 'Member Exists') {
 				currentForm.find('.tmcajaxresponse.welcome').show()
 			}
