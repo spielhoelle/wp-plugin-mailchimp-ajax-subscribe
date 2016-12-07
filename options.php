@@ -28,7 +28,7 @@ add_action( 'wp_enqueue_scripts', 'load_plugin_css', 15 );
 function load_plugin_css() {
     $plugin_url = dirname( plugin_basename(__FILE__) );
 
-    wp_enqueue_style( 'tommy-mailchimp-ajax', plugin_dir_url(__FILE__) . '/tommy-mailchimp-ajax.css');
+    wp_enqueue_style( 'tommy-mailchimp-ajax', plugin_dir_url(__FILE__) . 'tommy-mailchimp-ajax.css');
 }
 
 add_action('admin_menu', 'test_plugin_setup_menu');
